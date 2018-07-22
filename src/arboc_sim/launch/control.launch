@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <rosparam file="$(find arboc_description)/config/arboc.yaml"
+            command="load"/>
+
+  <node name="robot_state_publisher_arboc" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+            <param name="publish_frequency" type="double" value="30.0" />
+            <param name="ignore_timestamp" type="bool" value="true" />
+            <param name="tf_prefix" type="string" value="arboc" />
+            <remap from="/joint_states" to="/arboc/joint_states" />
+        </node>
+
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" args="--namespace=/arboc
+                              joint_state_controller
+                              joint_01_pc
+                              joint_02_pc
+                              joint_03_pc
+                              joint_04_pc
+                              joint_05_pc
+                              joint_06_pc
+                              joint_07_pc
+                              --shutdown-timeout 3">
+  </node>
+
+</launch>

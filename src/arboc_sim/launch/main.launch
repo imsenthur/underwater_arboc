@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="robot" default="machine"/>
+  <arg name="debug" default="false"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="paused" default="true"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find arboc_sim)/worlds/underwater.world"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+  <include file="$(find arboc_sim)/launch/spawn.launch"/>
+  <include file="$(find arboc_sim)/launch/control.launch"/>
+
+  <arg name="gait" default="true" />
+  
+  <group if="$(arg gait)">
+    <node name="controller" pkg="arboc_sim" type="gaits.py" />
+  </group>
+
+</launch>

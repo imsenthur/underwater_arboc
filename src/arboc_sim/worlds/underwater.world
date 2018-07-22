@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="underwater">
+    <include>
+      <uri>model://sun</uri>
+      <pose>20 20 20 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <light type="directional" name="my_light">
+      <pose>20 20 10 0 0 0</pose>
+      <diffuse>.2 .2 .2 1</diffuse>
+      <specular>.1 .1 .1 1</specular>
+      <attenuation>
+          <range>20</range>
+      </attenuation>
+      <direction>0 0 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <!-- buoyancy plugin -->
+    <plugin name="freefloating_gazebo_fluid" filename="libfreefloating_gazebo_fluid.so">
+      <descriptionParam>robot_description</descriptionParam>
+      <fluidTopic>current</fluidTopic>
+      <alwaysOn>true</alwaysOn>
+      <surface>0 0 0</surface>
+      <updateRate>.001</updateRate>
+    </plugin>                               
+  </world>
+</sdf>
