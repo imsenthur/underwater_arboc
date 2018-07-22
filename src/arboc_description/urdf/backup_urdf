@@ -1,0 +1,1412 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arboc">
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="mass" value="0.140603015937" />
+  <xacro:property name="radius" value="0.0335" /> 
+  <xacro:property name="height" value="0.040" />
+  <xacro:property name="_mass" value="0.228479900898" />
+  <xacro:property name="_height" value="0.065" />
+
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/arboc</robotNamespace>
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
+    </plugin>
+  </gazebo>
+
+  <link name="dummy_root"/>
+
+  <joint name="dummy_root_to_link" type="fixed">
+    <parent link="dummy_root"/>
+    <child link="link_01"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="link_01">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="0 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="${mass}"/>
+      <inertia 
+          ixx="${mass/2.0*radius**2}" 
+          iyy="${mass/12.0*(3*radius**2+height**2)}" 
+          izz="${mass/12.0*(3*radius**2+height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_01" type="revolute">
+    <parent link="link_01"/>
+    <child link="link_02"/>
+    <origin xyz="${height/2} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping=".1" friction="0.2"/>
+    <limit effort="20" lower="-1.57" upper="1.57" velocity="2.208932"/>
+  </joint>
+
+  <transmission name="joint_01_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_01">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_01_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>300</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_02">
+    <collision>
+      <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_height/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/2.0*radius**2}" 
+          iyy="${_mass/12.0*(3*radius**2+_height**2)}" 
+          izz="${_mass/12.0*(3*radius**2+_height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_02" type="revolute">
+    <parent link="link_02"/>
+    <child link="link_03"/>
+    <origin xyz="${_height} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping=".1" friction="0.2"/>
+    <limit effort="20" lower="-1.57" upper="1.57" velocity="2.208932"/>
+  </joint>
+
+  <transmission name="joint_02_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_02">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_02_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>300</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_03">
+    <collision>
+      <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_height/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/2.0*radius**2}" 
+          iyy="${_mass/12.0*(3*radius**2+_height**2)}" 
+          izz="${_mass/12.0*(3*radius**2+_height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+<!-->
+  <joint name="joint_03" type="revolute">
+    <parent link="link_03"/>
+    <child link="link_04"/>
+    <origin xyz="${_height} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping=".1" friction="0.2"/>
+    <limit effort="20" lower="-1.57" upper="1.57" velocity="2.208932"/>
+  </joint>
+
+  <transmission name="joint_03_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_03">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_03_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>300</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_04">
+    <collision>
+      <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+
+    <visual>
+       <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_height/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/2.0*radius**2}" 
+          iyy="${_mass/12.0*(3*radius**2+_height**2)}" 
+          izz="${_mass/12.0*(3*radius**2+_height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_04" type="revolute">
+    <parent link="link_04"/>
+    <child link="link_05"/>
+    <origin xyz="${_height} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping=".1" friction="0.2"/>
+    <limit effort="20" lower="-1.57" upper="1.57" velocity="2.208932"/>
+  </joint>
+
+  <transmission name="joint_04_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_04">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_04_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>300</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_05">
+    <collision>
+      <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_height/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/2.0*radius**2}" 
+          iyy="${_mass/12.0*(3*radius**2+_height**2)}" 
+          izz="${_mass/12.0*(3*radius**2+_height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_05" type="revolute">
+    <parent link="link_05"/>
+    <child link="link_06"/>
+    <origin xyz="${_height} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping=".1" friction="0.2"/>
+    <limit effort="20" lower="-1.57" upper="1.57" velocity="2.208932"/>
+  </joint>
+
+  <transmission name="joint_05_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_05">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_05_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>300</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_06">
+    <collision>
+      <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_height/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/2.0*radius**2}" 
+          iyy="${_mass/12.0*(3*radius**2+_height**2)}" 
+          izz="${_mass/12.0*(3*radius**2+_height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_06" type="revolute">
+    <parent link="link_06"/>
+    <child link="link_07"/>
+    <origin xyz="${_height} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping=".1" friction="0.2"/>
+    <limit effort="20" lower="-1.57" upper="1.57" velocity="2.208932"/>
+  </joint>
+
+  <transmission name="joint_06_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_06">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_06_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>300</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_07">
+    <collision>
+      <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${_height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_height/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/2.0*radius**2}" 
+          iyy="${_mass/12.0*(3*radius**2+_height**2)}" 
+          izz="${_mass/12.0*(3*radius**2+_height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_07" type="revolute">
+    <parent link="link_07"/>
+    <child link="link_08"/>
+    <origin xyz="${_height} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping=".1" friction="0.2"/>
+    <limit effort="20" lower="-1.57" upper="1.57" velocity="2.208932"/>
+  </joint>
+
+  <transmission name="joint_07_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_07">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_07_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>300</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+  <link name="link_08">
+    <collision>
+      <origin xyz="${height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${height}" />
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${height/2} 0 0" rpy="0 ${-PI/2} 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="${height}" />
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${height/2} 0 0" rpy="0 0 0" />
+      <mass value="${mass}"/>
+      <inertia 
+          ixx="${mass/2.0*radius**2}" 
+          iyy="${mass/12.0*(3*radius**2+height**2)}" 
+          izz="${mass/12.0*(3*radius**2+height**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+<-->
+  <gazebo reference="link_01">
+    <material>Gazebo/Blue</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_02">
+    <material>Gazebo/Yellow</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_03">
+    <material>Gazebo/Green</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+<!-->
+  <gazebo reference="link_04">
+    <material>Gazebo/Yellow</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_05">
+    <material>Gazebo/Green</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_06">
+    <material>Gazebo/Yellow</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_07">
+    <material>Gazebo/Green</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_08">
+    <material>Gazebo/Blue</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<-->
+  <gazebo>
+    <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+      <fluid_density>997</fluid_density>
+    </plugin>
+  </gazebo>
+</robot>
+
+
+
+
+
+
+
+
+
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arboc">
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="mass" value="0.022377665" /> <!-- 0.022377665, 0.140603015937 -->
+  <xacro:property name="radius" value="0.0335" /> 
+  <xacro:property name="length" value="0.040" />
+  <xacro:property name="height" value="0.008375" />
+  <xacro:property name="breadth" value="0.067" />
+  <xacro:property name="_mass" value="0.036363705625" /> <!-- 0.036363705625, 0.228479900898 -->
+  <xacro:property name="_length" value="0.065" />
+
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/arboc</robotNamespace>
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
+    </plugin>
+  </gazebo>
+
+  <link name="dummy_root"/>
+
+  <joint name="dummy_root_to_link" type="fixed">
+    <parent link="dummy_root"/>
+    <child link="link_01"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="link_01">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${length} ${breadth} ${height}"/>
+        <!-- <cylinder radius="${radius}" length="${length}" /> -->
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${length} ${breadth} ${height}"/> 
+        <!-- <cylinder radius="${radius}" length="${length}" /> -->
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="${mass}"/>
+      <inertia 
+          ixx="${mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${mass/12.0*(height**2 + length**2)}" 
+          izz="${mass/12.0*(length**2 + breadth**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_01" type="revolute">
+    <parent link="link_01"/>
+    <child link="link_02"/>
+    <origin xyz="${length/2} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.01" friction="0.02"/>
+    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+  </joint>
+
+  <transmission name="joint_01_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_01">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_01_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_02">
+    <collision>
+      <origin xyz="${_length/2} 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_length/2} 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${_mass/12.0*(_length**2 + breadth**2)}" 
+          izz="${_mass/12.0*(height**2 + _length**2)}"
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+  </link>
+
+  <joint name="joint_02" type="revolute">
+    <parent link="link_02"/>
+    <child link="link_03"/>
+    <origin xyz="${_length} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.01" friction="0.02"/>
+    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+  </joint>
+
+  <transmission name="joint_02_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_02">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_02_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_03">
+    <collision>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${_mass/12.0*(height**2 + _length**2)}" 
+          izz="${_mass/12.0*(_length**2 + breadth**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+  </link>
+
+  <joint name="joint_03" type="revolute">
+    <parent link="link_03"/>
+    <child link="link_04"/>
+    <origin xyz="${_length} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.01" friction="0.02"/>
+    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+  </joint>
+
+  <transmission name="joint_03_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_03">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_03_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_04">
+    <collision>
+      <origin xyz="${_length/2} 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+
+    <visual>
+       <origin xyz="${_length/2} 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${_mass/12.0*(_length**2 + breadth**2)}" 
+          izz="${_mass/12.0*(height**2 + _length**2)}"
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+  </link>
+
+  <joint name="joint_04" type="revolute">
+    <parent link="link_04"/>
+    <child link="link_05"/>
+    <origin xyz="${_length} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.01" friction="0.02"/>
+    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+  </joint>
+
+  <transmission name="joint_04_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_04">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_04_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_05">
+    <collision>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${_mass/12.0*(height**2 + _length**2)}" 
+          izz="${_mass/12.0*(_length**2 + breadth**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+  </link>
+
+  <joint name="joint_05" type="revolute">
+    <parent link="link_05"/>
+    <child link="link_06"/>
+    <origin xyz="${_length} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.01" friction="0.02"/>
+    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+  </joint>
+
+  <transmission name="joint_05_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_05">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_05_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_06">
+    <collision>
+      <origin xyz="${_length/2} 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_length/2} 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${_mass/12.0*(_length**2 + breadth**2)}" 
+          izz="${_mass/12.0*(height**2 + _length**2)}"
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+  </link>
+
+  <joint name="joint_06" type="revolute">
+    <parent link="link_06"/>
+    <child link="link_07"/>
+    <origin xyz="${_length} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.01" friction="0.02"/>
+    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+  </joint>
+
+  <transmission name="joint_06_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_06">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_06_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="link_07">
+    <collision>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${_length} ${breadth} ${height}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${_length/2} 0 0" rpy="0 0 0" />
+      <mass value="${_mass}"/>
+      <inertia 
+          ixx="${_mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${_mass/12.0*(height**2 + _length**2)}" 
+          izz="${_mass/12.0*(_length**2 + breadth**2)}" 
+          ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+  </link>
+
+  <joint name="joint_07" type="revolute">
+    <parent link="link_07"/>
+    <child link="link_08"/>
+    <origin xyz="${_length/2} 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0.01" friction="0.02"/>
+    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+  </joint>
+
+  <transmission name="joint_07_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_07">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="joint_07_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+  <link name="link_08">
+    <collision>
+      <origin xyz="${length/2} 0 0" rpy="${PI/2} 0 0" />
+       <geometry>
+        <box size="${length} ${breadth} ${height}"/>
+      </geometry>
+    </collision> 
+
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.998000</mu>
+          <mu2>0.998000</mu2>
+          <fdir1>0.000000 0.000000 0.000000</fdir1>
+          <slip1>0.000000</slip1>
+          <slip2>0.000000</slip2>
+        </ode>
+      </friction>
+      <bounce>
+        <restitution_coefficient>0.000000</restitution_coefficient>
+        <threshold>100000.000000</threshold>
+      </bounce>
+      <contact>
+        <ode>
+          <soft_cfm>0.000000</soft_cfm>
+          <soft_erp>0.200000</soft_erp>
+          <kp>100000.000000</kp>
+          <kd>1.000000</kd>
+          <max_vel>100.000000</max_vel>
+          <min_depth>0.001000</min_depth>
+        </ode>
+      </contact>
+    </surface>
+
+    <visual>
+       <origin xyz="${length/2} 0 0" rpy="${PI/2} 0 0" />
+      <geometry>
+        <box size="${length} ${breadth} ${height}"/> 
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="${length/2} 0 0" rpy="0 0 0" />
+      <mass value="${mass}"/>
+      <inertia 
+          ixx="${mass/12.0*(height**2 + breadth**2)}" 
+          iyy="${mass/12.0*(length**2 + breadth**2)}" 
+          izz="${mass/12.0*(height**2 + length**2)}"
+          ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="link_01">
+    <material>Gazebo/Blue</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_02">
+    <material>Gazebo/Yellow</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_03">
+    <material>Gazebo/Green</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_04">
+    <material>Gazebo/Yellow</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_05">
+    <material>Gazebo/Green</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_06">
+    <material>Gazebo/Yellow</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_07">
+    <material>Gazebo/Green</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="link_08">
+    <material>Gazebo/Blue</material> 
+    <static>false</static>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="dummy_root_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.00268</area>
+      <upward>0 0 1.0</upward>
+      <forward>0 1.0 0</forward>
+      <link_name>dummy_root</link_name>
+      <cp>0 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="link_02_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.004355</area>
+      <upward>0 1.0 0</upward>
+      <forward>0 0 1.0</forward>
+      <link_name>link_02</link_name>
+      <cp>0.0525 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="link_03_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.004355</area>
+      <upward>0 0 1.0</upward>
+      <forward>0 1.0 0</forward>
+      <link_name>link_03</link_name>
+      <cp>0.1175 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="link_04_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.004355</area>
+      <upward>0 1.0 0</upward>
+      <forward>0 0 1.0</forward>
+      <link_name>link_04</link_name>
+      <cp>0.1825 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="link_05_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.004355</area>
+      <upward>0 0 1.0</upward>
+      <forward>0 1.0 0</forward>
+      <link_name>link_05</link_name>
+      <cp>0.2475 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="link_06_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.004355</area>
+      <upward>0 1.0 0</upward>
+      <forward>0 0 1.0</forward>
+      <link_name>link_06</link_name>
+      <cp>0.3125 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="link_07_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.004355</area>
+      <upward>0 0 1.0</upward>
+      <forward>0 1.0 0</forward>
+      <link_name>link_07</link_name>
+      <cp>0.3775 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="link_08_ld" filename="libLiftDragPlugin.so">
+      <air_density>997</air_density>
+      <cla>0</cla>
+      <cla_stall>0</cla_stall>
+      <cda>1.2535816618911175</cda>
+      <cda_stall>1.4326647564469914</cda_stall>
+      <alpha_stall>0</alpha_stall>
+      <a0>0</a0>
+      <area>0.00268</area>
+      <upward>0 1.0 0</upward>
+      <forward>0 0 1.0</forward>
+      <link_name>link_08</link_name>
+      <cp>0.43 0 0</cp>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="BuoyancyPlugin" filename="libBuoyancyPlugin.so">
+      <fluid_density>997</fluid_density>
+    </plugin>
+  </gazebo>
+
+</robot>

@@ -1,0 +1,46 @@
+# The PID gains and controller settings must be saved in a yaml file that gets loaded
+# to the param server via the roslaunch file (monoped_control.launch).
+
+arboc:
+  # Publish all joint states -----------------------------------
+  # Creates the /joint_states topic necessary in ROS
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 1000
+
+# Effort Controllers ---------------------------------------
+  joint_01_pc:
+    type: effort_controllers/JointPositionController
+    joint: joint_01
+    pid: {p: 3.0, i: 0.0, d: 0}
+    #pid: {p: 50.0, i: 0.1, d: 0.0}
+  joint_02_pc:
+    type: effort_controllers/JointPositionController
+    joint: joint_02
+    pid: {p: 3.0, i: 0.0, d: 0}
+    #pid: {p: 50.0, i: 0.1, d: 0.0}
+  joint_03_pc:
+    type: effort_controllers/JointPositionController
+    joint: joint_03
+    pid: {p: 3.0, i: 0.0, d: 0}
+    #pid: {p: 50.0, i: 0.1, d: 0.0}
+  joint_04_pc:
+    type: effort_controllers/JointPositionController
+    joint: joint_04
+    pid: {p: 3.0, i: 0.0, d: 0}
+    #pid: {p: 50.0, i: 0.1, d: 0.0}
+  joint_05_pc:
+    type: effort_controllers/JointPositionController
+    joint: joint_05
+    pid: {p: 3.0, i: 0.0, d: 0}
+    #pid: {p: 50.0, i: 0.1, d: 0.0}
+  joint_06_pc:
+    type: effort_controllers/JointPositionController
+    joint: joint_06
+    pid: {p: 3.0, i: 0.0, d: 0}
+    #pid: {p: 50.0, i: 0.1, d: 0.0}
+  joint_07_pc:
+    type: effort_controllers/JointPositionController
+    joint: joint_07
+    pid: {p: 3.0, i: 0.0, d: 0}
+    #pid: {p: 50.0, i: 0.1, d: 0.0}
