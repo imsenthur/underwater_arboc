@@ -86,7 +86,7 @@
     <origin xyz="${length/2} 0 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.02"/>
-    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+    <limit effort="7.0" lower="${-5*PI/12}" upper="${5*PI/12}" velocity="2.0"/>
   </joint>
 
   <transmission name="joint_01_trans">
@@ -96,7 +96,7 @@
     </joint>
     <actuator name="joint_01_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -159,7 +159,7 @@
     <origin xyz="${_length} 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.01" friction="0.02"/>
-    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+    <limit effort="7.0" lower="${-5*PI/12}" upper="${5*PI/12}" velocity="2.0"/>
   </joint>
 
   <transmission name="joint_02_trans">
@@ -169,7 +169,7 @@
     </joint>
     <actuator name="joint_02_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -232,7 +232,7 @@
     <origin xyz="${_length} 0 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.02"/>
-    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+    <limit effort="7.0" lower="${-5*PI/12}" upper="${5*PI/12}" velocity="2.0"/>
   </joint>
 
   <transmission name="joint_03_trans">
@@ -242,7 +242,7 @@
     </joint>
     <actuator name="joint_03_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -306,7 +306,7 @@
     <origin xyz="${_length} 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.01" friction="0.02"/>
-    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+    <limit effort="7.0" lower="${-5*PI/12}" upper="${5*PI/12}" velocity="2.0"/>
   </joint>
 
   <transmission name="joint_04_trans">
@@ -316,7 +316,7 @@
     </joint>
     <actuator name="joint_04_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -379,7 +379,7 @@
     <origin xyz="${_length} 0 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.02"/>
-    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+    <limit effort="7.0" lower="${-5*PI/12}" upper="${5*PI/12}" velocity="2.0"/>
   </joint>
 
   <transmission name="joint_05_trans">
@@ -389,7 +389,7 @@
     </joint>
     <actuator name="joint_05_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -453,7 +453,7 @@
     <origin xyz="${_length} 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.01" friction="0.02"/>
-    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+    <limit effort="7.0" lower="${-5*PI/12}" upper="${5*PI/12}" velocity="2.0"/>
   </joint>
 
   <transmission name="joint_06_trans">
@@ -463,7 +463,7 @@
     </joint>
     <actuator name="joint_06_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
 
@@ -526,7 +526,7 @@
     <origin xyz="${_length} 0 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.01" friction="0.02"/>
-    <limit effort="15.0" lower="-1.57" upper="1.57" velocity="2.0"/>
+    <limit effort="7.0" lower="${-5*PI/12}" upper="${5*PI/12}" velocity="2.0"/>
   </joint>
 
   <transmission name="joint_07_trans">
@@ -536,7 +536,7 @@
     </joint>
     <actuator name="joint_07_motor">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
+      <mechanicalReduction>300</mechanicalReduction>
     </actuator>
   </transmission>
 

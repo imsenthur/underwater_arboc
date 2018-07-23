@@ -29,25 +29,25 @@ class JointCmds:
     def update( self, dt ) :
 
         self.t += dt
-        a = 0.8*np.pi
+        a = 0.5*np.pi
         b = 2*np.pi
-        c = 1*np.pi
+        c = -0.25*np.pi
 
         num_segments = 8
         gamma=-c/num_segments
         beta=b/num_segments
-        alpha=a*np.abs(np.sin(beta/2))
+        alpha=a
+        omega=5
 
         for i, jnt in enumerate(self.joints_list):
             if i%2==0:
-                self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*np.pi - 0.5*i*beta)+gamma
-                #rospy.loginfo(str(self.t))
-                #self.jnt_cmd_dict[jnt] = alpha*np.sin(2*self.t*np.pi+(i-8)*beta)+gamma
+                self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*omega + i*beta)+gamma
             else:
-                self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*np.pi - 0.5*(i+1)*beta)+gamma
+                pass
+                #self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*np.pi - 0.5*(i+1)*beta)+gamma
                 #rospy.loginfo(str(self.t))
-                #self.jnt_cmd_dict[jnt] = alpha*np.sin(2*self.t*np.pi+(i-8)*beta)+gamma       
-
+    
+        #rospy.loginfo(self.jnt_cmd_dict['joint_01'])
         return self.jnt_cmd_dict
 
 
@@ -78,7 +78,7 @@ def publish_commands( num_modules, hz ):
 if __name__ == "__main__":
     try:
         num_modules = 8       
-        hz = 100
+        hz = 50
         publish_commands( num_modules, hz )
     except rospy.ROSInterruptException:
         pass

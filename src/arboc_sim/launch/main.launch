@@ -18,7 +18,7 @@
   <include file="$(find arboc_sim)/launch/spawn.launch"/>
   <include file="$(find arboc_sim)/launch/control.launch"/>
 
-  <arg name="gait" default="true" />
+  <arg name="gait" default="false" />
   
   <group if="$(arg gait)">
     <node name="controller" pkg="arboc_sim" type="gaits.py" />

@@ -40,8 +40,8 @@ class JointPub(object):
 
     def start_loop(self, rate_value = 2.0):
         rospy.loginfo("Starting Control")
-        pos1 = [-1.57,1.57,-1.57,1.57,-1.57,1.57,-1.57]
-        pos2 = [1.57,-1.57,1.57,-1.57,1.57,-1.57,1.57]
+        pos1 = [-1.0,1.0,-1.0,1.0,-1.0,1.0,-1.0]
+        pos2 = [1.0,-1.0,1.0,-1.0,1.0,-1.0,1.0]
         position = "pos1"
         rate = rospy.Rate(rate_value)
         while not rospy.is_shutdown():
