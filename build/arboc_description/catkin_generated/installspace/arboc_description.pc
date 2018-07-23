@@ -1,0 +1,8 @@
+prefix=/home/holy_cow/underwater_arboc/install
+
+Name: arboc_description
+Description: Description of arboc_description
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/holy_cow/underwater_arboc/install/lib 
+Requires: 

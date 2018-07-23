@@ -1,0 +1,2 @@
+arboc_description:arboc_sim
+-DCATKIN_DEVEL_PREFIX=/home/holy_cow/underwater_arboc/devel -DCMAKE_INSTALL_PREFIX=/home/holy_cow/underwater_arboc/install -G Unix Makefiles

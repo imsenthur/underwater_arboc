@@ -1,0 +1,8 @@
+prefix=/home/holy_cow/underwater_arboc/install
+
+Name: arboc_sim
+Description: Description of arboc_sim
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/holy_cow/underwater_arboc/install/lib 
+Requires: 
