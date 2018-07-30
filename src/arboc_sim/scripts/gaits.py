@@ -31,7 +31,7 @@ class JointCmds:
         self.t += dt
         a = 0.5*np.pi
         b = 2*np.pi
-        c = -0.25*np.pi
+        c = 0.0*np.pi
 
         num_segments = 8
         gamma=-c/num_segments
@@ -40,11 +40,12 @@ class JointCmds:
         omega=5
 
         for i, jnt in enumerate(self.joints_list):
-            if i%2==0:
-                self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*omega + i*beta)+gamma
-            else:
-                pass
-                #self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*np.pi - 0.5*(i+1)*beta)+gamma
+            #if(i%2!=0):
+            self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*omega + i*beta)+gamma
+                #rospy.loginfo((alpha*np.sin(self.t*omega + i*beta)+gamma)*180/np.pi)
+            #else:
+            	#pass
+                #self.jnt_cmd_dict[jnt] = alpha*np.sin(self.t*np.pi + i*beta)+gamma
                 #rospy.loginfo(str(self.t))
     
         #rospy.loginfo(self.jnt_cmd_dict['joint_01'])
