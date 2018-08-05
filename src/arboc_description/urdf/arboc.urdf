@@ -64,7 +64,7 @@
     <visual>
        <origin xyz="0.003750 -0.00185 0" rpy="0 ${-PI/2} 0" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/end_module.dae"/>
+        <mesh filename="package://arboc_description/meshes/end_module.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <!-- <cylinder radius="${radius}" length="${length}" /> -->
       </geometry>
@@ -137,7 +137,7 @@
     <visual>
        <origin xyz="${_length/2 + 0.0095} 0.00075 -0.00154" rpy="${PI/2} 0 ${-PI/2}" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/module_left.dae"/>
+        <mesh filename="package://arboc_description/meshes/module_left.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <!-- <cylinder radius="${radius}" length="${_length}" /> -->
       </geometry>
@@ -210,7 +210,7 @@
     <visual>
        <origin xyz="${_length/2 + 0.009125} -0.00154 0.00075" rpy="0 ${-PI/2} 0" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/module_right.dae"/>
+        <mesh filename="package://arboc_description/meshes/module_right.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <cylinder radius="${radius}" length="${_length}" /> 
       </geometry>
@@ -284,7 +284,7 @@
     <visual>
        <origin xyz="${_length/2 + 0.0085} 0.00075 -0.00154" rpy="${PI/2} 0 ${-PI/2}" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/module_left.dae"/>
+        <mesh filename="package://arboc_description/meshes/module_left.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <!-- <cylinder radius="${radius}" length="${_length}" /> -->
       </geometry>
@@ -357,7 +357,7 @@
     <visual>
        <origin xyz="${_length/2 + 0.00805} -0.00154 0.00075" rpy="0 ${-PI/2} 0" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/module_right.dae"/>
+        <mesh filename="package://arboc_description/meshes/module_right.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <!-- <cylinder radius="${radius}" length="${_length}" /> -->
       </geometry>
@@ -431,7 +431,7 @@
     <visual>
        <origin xyz="${_length/2 + 0.0074} 0.00075 -0.00154" rpy="${PI/2} 0 ${-PI/2}" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/module_left.dae"/>
+        <mesh filename="package://arboc_description/meshes/module_left.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <!-- <cylinder radius="${radius}" length="${_length}" /> -->
       </geometry>
@@ -504,7 +504,7 @@
     <visual>
        <origin xyz="${_length/2 + 0.00685} -0.00154 0.00075" rpy="0 ${-PI/2} 0" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/module_right.dae"/>
+        <mesh filename="package://arboc_description/meshes/module_right.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <!-- <cylinder radius="${radius}" length="${_length}" /> -->
       </geometry>
@@ -577,7 +577,7 @@
     <visual>
        <origin xyz="${length/2 + 0.000935} 0.0016 0.00025" rpy="0 ${-PI/2} ${-PI/2}" />
       <geometry>
-      	<mesh filename="package://arboc_description/meshes/top_module.dae"/>
+        <mesh filename="package://arboc_description/meshes/top_module.dae"/>
         <!-- <box size="${length} ${breadth} ${height}"/> -->
         <!-- <cylinder radius="${radius}" length="${length}" /> -->
       </geometry>
@@ -595,179 +595,154 @@
 
   <gazebo reference="link_01">
     <!-- <material>Gazebo/Blue</material> -->
-    <sensor name="imu_sensor_01" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_01</topicName>
-        <bodyName>link_01</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_01</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
-    
     <static>false</static>
     <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_01</topicName>
+      <serviceName>arboc/imu/imu_01</serviceName>
+      <bodyName>link_01</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_03</frameName>
+    </plugin>
   </gazebo>
 
   <gazebo reference="link_02">
     <!-- <material>Gazebo/Blue</material> --> 
-    <sensor name="imu_sensor_02" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_02</topicName>
-        <bodyName>link_02</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_02</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
     <static>false</static>
     <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_02</topicName>
+      <serviceName>arboc/imu/imu_02</serviceName>
+      <bodyName>link_02</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_03</frameName>
+    </plugin>
   </gazebo>
 
   <gazebo reference="link_03">
     <!-- <material>Gazebo/Blue</material> -->
-    <sensor name="imu_sensor_03" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_03</topicName>
-        <bodyName>link_03</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_03</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
     <static>false</static>
     <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_03</topicName>
+      <serviceName>arboc/imu/imu_03</serviceName>
+      <bodyName>link_03</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_04</frameName>
+    </plugin>
   </gazebo>
 
   <gazebo reference="link_04">
     <!-- <material>Gazebo/Blue</material> -->
-    <sensor name="imu_sensor_04" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_04</topicName>
-        <bodyName>link_04</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_04</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
     <static>false</static>
     <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_04</topicName>
+      <serviceName>arboc/imu/imu_04</serviceName>
+      <bodyName>link_04</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_05</frameName>
+    </plugin>
   </gazebo>
 
   <gazebo reference="link_05">
     <!-- <material>Gazebo/Blue</material> --> 
-    <sensor name="imu_sensor_05" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_05</topicName>
-        <bodyName>link_05</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_05</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
     <static>false</static>
     <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_05</topicName>
+      <serviceName>arboc/imu/imu_05</serviceName>
+      <bodyName>link_05</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_06</frameName>
+    </plugin>
   </gazebo>
 
   <gazebo reference="link_06">
     <!-- <material>Gazebo/Blue</material> --> 
-    <sensor name="imu_sensor_06" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_06</topicName>
-        <bodyName>link_06</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_06</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
     <static>false</static>
     <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_06</topicName>
+      <serviceName>arboc/imu/imu_06</serviceName>
+      <bodyName>link_06</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_07</frameName>
+    </plugin>
   </gazebo>
 
   <gazebo reference="link_07">
     <!-- <material>Gazebo/Blue</material> --> 
-    <sensor name="imu_sensor_07" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_07</topicName>
-        <bodyName>link_07</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_07</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
     <static>false</static>
     <selfCollide>true</selfCollide>
   </gazebo>
 
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_07</topicName>
+      <serviceName>arboc/imu/imu_07</serviceName>
+      <bodyName>link_07</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_08</frameName>
+    </plugin>
+  </gazebo>
+
   <gazebo reference="link_08">
     <!-- <material>Gazebo/Blue</material> --> 
-    <sensor name="imu_sensor_08" type="imu">
-      <always_on>true</always_on>
-      <update_rate>200</update_rate>
-      <visualize>true</visualize>
-      <topic>__default_topic__</topic>
-      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-        <topicName>arboc/imu/imu_08</topicName>
-        <bodyName>link_08</bodyName>
-        <updateRateHZ>200.0</updateRateHZ>
-        <gaussianNoise>0.0</gaussianNoise>
-        <xyzOffset>0 0 0</xyzOffset>
-        <rpyOffset>0 0 0</rpyOffset>
-        <frameName>imu_link_08</frameName>
-      </plugin>
-      <pose>0 0 0 0 0 0</pose>
-    </sensor>
     <static>false</static>
     <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libarboc_imu.so" name="imu_plugin">
+      <topicName>arboc/imu/imu_08</topicName>
+      <serviceName>arboc/imu/imu_08</serviceName>
+      <bodyName>link_08</bodyName>
+      <updateRateHZ>200.0</updateRateHZ>
+      <gaussianNoise>0.0</gaussianNoise>
+      <xyzOffset>0 0 0</xyzOffset>
+      <rpyOffset>0 0 0</rpyOffset>
+      <frameName>link_08</frameName>
+    </plugin>
   </gazebo>
 
   <gazebo>

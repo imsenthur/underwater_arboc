@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/holy_cow/underwater_arboc/src/arboc_plugins/src/arboc_imu.cc
+arboc_plugins/include/arboc_imu.hh
+-
+
